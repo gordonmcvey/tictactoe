@@ -1,31 +1,11 @@
 <?php
 
 use gordonmcvey\tictactoe\Board;
-use gordonmcvey\tictactoe\enum\Players;
-use gordonmcvey\tictactoe\enum\Tokens;
 use gordonmcvey\tictactoe\Game;
+use gordonmcvey\tictactoe\helpers\ButtonRenderer;
 use Random\Randomizer;
 
 require __DIR__ . '/vendor/autoload.php';
-
-function renderButton(int $slot, ?int $player): string {
-    $symbol = match ($player) {
-        Players::PLAYER_1->value => Tokens::PLAYER_1_TOKEN,
-        Players::PLAYER_2->value => Tokens::PLAYER_2_TOKEN,
-        default => Tokens::FREE_TOKEN,
-    };
-
-    $disable = null !== $player ?
-        'disabled="disabled"' :
-        '';
-
-    return sprintf(
-        '<button %s type="submit" name="move" value="%d">%s</button>',
-        $disable,
-        $slot,
-        $symbol->value,
-    );
-}
 
 session_start();
 
@@ -34,6 +14,7 @@ if (isset($_POST["restart"])) {
 }
 
 // Init
+$buttons = new ButtonRenderer();
 $game = new Game(isset($_SESSION["slots"]) ? new Board($_SESSION["slots"]) : new Board(), new Randomizer());
 
 // Play
@@ -70,19 +51,19 @@ $_SESSION["slots"] = $slots;
             <table class="grid">
                 <tbody>
                 <tr style="height: 1.5em">
-                    <td class="cell"><?=renderButton(0, $slots[0]) ?></td>
-                    <td class="cell"><?=renderButton(1, $slots[1]) ?></td>
-                    <td class="cell"><?=renderButton(2, $slots[2]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(0, $slots[0]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(1, $slots[1]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(2, $slots[2]) ?></td>
                 </tr>
                 <tr style="height: 1.5em">
-                    <td class="cell"><?=renderButton(3, $slots[3]) ?></td>
-                    <td class="cell"><?=renderButton(4, $slots[4]) ?></td>
-                    <td class="cell"><?=renderButton(5, $slots[5]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(3, $slots[3]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(4, $slots[4]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(5, $slots[5]) ?></td>
                 </tr>
                 <tr style="height: 1.5em">
-                    <td class="cell"><?=renderButton(6, $slots[6]) ?></td>
-                    <td class="cell"><?=renderButton(7, $slots[7]) ?></td>
-                    <td class="cell"><?=renderButton(8, $slots[8]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(6, $slots[6]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(7, $slots[7]) ?></td>
+                    <td class="cell"><?=$buttons->renderButton(8, $slots[8]) ?></td>
                 </tr>
                 </tbody>
             </table>
