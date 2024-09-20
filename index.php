@@ -1,6 +1,8 @@
 <?php
 
 use gordonmcvey\tictactoe\Board;
+use gordonmcvey\tictactoe\enum\Players;
+use gordonmcvey\tictactoe\enum\Tokens;
 use gordonmcvey\tictactoe\Game;
 use Random\Randomizer;
 
@@ -8,9 +10,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 function renderButton(int $slot, ?int $player): string {
     $symbol = match ($player) {
-        Game::PLAYER_1 => Game::PLAYER_1_TOKEN,
-        Game::PLAYER_2 => Game::PLAYER_2_TOKEN,
-        default => "🆓",
+        Players::PLAYER_1->value => Tokens::PLAYER_1_TOKEN,
+        Players::PLAYER_2->value => Tokens::PLAYER_2_TOKEN,
+        default => Tokens::FREE_TOKEN,
     };
 
     $disable = null !== $player ?
@@ -21,7 +23,7 @@ function renderButton(int $slot, ?int $player): string {
         '<button %s type="submit" name="move" value="%d">%s</button>',
         $disable,
         $slot,
-        $symbol,
+        $symbol->value,
     );
 }
 

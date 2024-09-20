@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace gordonmcvey\tictactoe;
 
+use gordonmcvey\tictactoe\enum\Players;
 use Random\Randomizer;
 
 class Game
 {
-    public const int    PLAYER_1       = 1;
-    public const int    PLAYER_2       = 2;
-    public const string PLAYER_1_TOKEN = "️🅾️";
-    public const string PLAYER_2_TOKEN = "❎";
     private const array WIN_CONDITIONS = [
         [0, 1, 2], // Top row
         [3, 4, 5], // Middle row
@@ -32,16 +29,16 @@ class Game
         $movesRemaining = $this->board->movesLeft();
 
         if ($movesRemaining > 0) {
-            $this->board->play(self::PLAYER_1, $slot);
-            if ($this->hasWon(self::PLAYER_1)) {
-                return self::PLAYER_1;
+            $this->board->play(Players::PLAYER_1->value, $slot);
+            if ($this->hasWon(Players::PLAYER_1->value)) {
+                return Players::PLAYER_1->value;
             }
         }
 
         if ($movesRemaining > 1) {
-            $this->board->play(self::PLAYER_2, $this->computeMove());
-            if ($this->hasWon(self::PLAYER_2)) {
-                return self::PLAYER_2;
+            $this->board->play(Players::PLAYER_2->value, $this->computeMove());
+            if ($this->hasWon(Players::PLAYER_2->value)) {
+                return Players::PLAYER_2->value;
             }
         }
 
