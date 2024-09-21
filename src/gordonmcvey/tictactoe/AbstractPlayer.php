@@ -10,7 +10,13 @@ use gordonmcvey\tictactoe\interface\PlayerContract;
 abstract class AbstractPlayer implements PlayerContract
 {
     public function __construct(
-        public readonly PlayerIds $playerId,
-        protected readonly Board  $board,
-    ) {}
+        private readonly PlayerIds $playerId,
+        protected readonly Board   $board,
+    ) {
+    }
+
+    public function getPlayerId(): PlayerIds
+    {
+        return $this->playerId;
+    }
 }

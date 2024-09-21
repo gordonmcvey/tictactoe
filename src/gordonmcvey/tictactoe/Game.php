@@ -36,6 +36,7 @@ class Game
     {
         $movesRemaining = $this->board->movesLeft();
 
+        /** @var AbstractPlayer $player */
         foreach ($this->players as $player) {
             // Guard to prevent further play should all available moves get played before the end of the round
             if ($movesRemaining-- <= 0) {
@@ -43,7 +44,7 @@ class Game
             }
 
             if ($this->hasWon($player->play())) {
-                return $player->playerId->value;
+                return $player->getPlayerId()->value;
             }
         }
 
@@ -53,10 +54,11 @@ class Game
     public function hasWon(PlayerContract $player): bool
     {
         $slots = $this->board->getSlots();
-        $playerId = $player->playerId->value;
+        $playerId = $player->getPlayerId()->value;
 
         foreach (self::WIN_CONDITIONS as $winCondition) {
-            if ($playerId === $slots[$winCondition[0]]
+            if (
+                $playerId === $slots[$winCondition[0]]
                 && $playerId === $slots[$winCondition[1]]
                 && $playerId === $slots[$winCondition[2]]
             ) {

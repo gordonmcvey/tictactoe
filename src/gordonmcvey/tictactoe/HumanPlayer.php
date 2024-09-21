@@ -17,7 +17,7 @@ class HumanPlayer extends AbstractPlayer
             throw new \RuntimeException('Move not specified');
         }
 
-        $this->board->play($this->playerId, $this->move);
+        $this->board->play($this->getPlayerId(), $this->move);
         return $this;
     }
 

@@ -8,6 +8,9 @@ use gordonmcvey\tictactoe\enum\PlayerIds;
 
 class Board
 {
+    /**
+     * @param array<array-key, int|null>|null $slots
+     */
     public function __construct(private ?array $slots = [
         null,
         null,
@@ -27,11 +30,17 @@ class Board
         return count($this->availableMoves());
     }
 
+    /**
+     * @return array<array-key, int>
+     */
     public function availableMoves(): array
     {
         return array_keys(array_filter($this->slots, fn($slot) => null === $slot));
     }
 
+    /**
+     * @return array<array-key, int|null>
+     */
     public function getSlots(): array
     {
         return $this->slots;

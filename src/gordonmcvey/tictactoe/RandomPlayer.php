@@ -20,7 +20,7 @@ class RandomPlayer extends AbstractPlayer
 
     public function play(): self
     {
-        $this->board->play($this->playerId, $this->computeMove());
+        $this->board->play($this->getPlayerId(), $this->computeMove());
         return $this;
     }
 
