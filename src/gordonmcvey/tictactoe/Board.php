@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace gordonmcvey\tictactoe;
 
+use gordonmcvey\tictactoe\enum\PlayerIds;
+
 class Board
 {
     public function __construct(private ?array $slots = [
@@ -35,13 +37,13 @@ class Board
         return $this->slots;
     }
 
-    public function play(int $player, int $move): self
+    public function play(PlayerIds $player, int $move): self
     {
         if (null !== $this->slots[$move]) {
             throw new \InvalidArgumentException("Illegal move: Slot already occupied");
         }
 
-        $this->slots[$move] = $player;
+        $this->slots[$move] = $player->value;
         return $this;
     }
 }

@@ -6,5 +6,5 @@ namespace gordonmcvey\tictactoe\interface;
 
 interface PlayerContract
 {
-    public function play(): void;
+    public function play(): self;
 }

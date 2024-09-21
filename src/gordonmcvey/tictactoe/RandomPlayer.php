@@ -2,7 +2,7 @@
 
 namespace gordonmcvey\tictactoe;
 
-use gordonmcvey\tictactoe\enum\Players;
+use gordonmcvey\tictactoe\enum\PlayerIds;
 use Random\Randomizer;
 
 /**
@@ -11,16 +11,17 @@ use Random\Randomizer;
 class RandomPlayer extends AbstractPlayer
 {
     public function __construct(
-        Players $playerId,
-        Board $board,
+        PlayerIds                   $playerId,
+        Board                       $board,
         private readonly Randomizer $randomiser,
     ) {
         parent::__construct($playerId, $board);
     }
 
-    public function play(): void
+    public function play(): self
     {
         $this->board->play($this->playerId, $this->computeMove());
+        return $this;
     }
 
     /**

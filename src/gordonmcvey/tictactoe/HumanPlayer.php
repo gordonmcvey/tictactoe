@@ -11,13 +11,14 @@ class HumanPlayer extends AbstractPlayer
 {
     private ?int $move;
 
-    public function play(): void
+    public function play(): self
     {
         if (null === $this->move) {
             throw new \RuntimeException('Move not specified');
         }
 
         $this->board->play($this->playerId, $this->move);
+        return $this;
     }
 
     public function setMove(int $move): self

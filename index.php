@@ -1,8 +1,11 @@
 <?php
 
 use gordonmcvey\tictactoe\Board;
+use gordonmcvey\tictactoe\enum\PlayerIds;
 use gordonmcvey\tictactoe\Game;
 use gordonmcvey\tictactoe\helpers\ButtonRenderer;
+use gordonmcvey\tictactoe\HumanPlayer;
+use gordonmcvey\tictactoe\RandomPlayer;
 use Random\Randomizer;
 
 require __DIR__ . '/vendor/autoload.php';
@@ -15,13 +18,24 @@ if (isset($_POST["restart"])) {
 
 // Init
 $buttons = new ButtonRenderer();
-$game = new Game(isset($_SESSION["slots"]) ? new Board($_SESSION["slots"]) : new Board(), new Randomizer());
+$board = isset($_SESSION["slots"]) ? new Board($_SESSION["slots"]) : new Board();
+$player1 = new HumanPlayer(PlayerIds::PLAYER_1, $board);
+$player2 = new RandomPlayer(PlayerIds::PLAYER_2, $board, new Randomizer());
+$game = new Game(
+    board: $board,
+    player1: $player1,
+    player2: $player2,
+);
 
 // Play
-$winner = isset($_POST["move"]) ? $game->playRound($_POST["move"]) : null;
+$winner = null;
+if (isset($_POST["move"])){
+    $player1->setMove($_POST["move"]);
+    $game->playRound();
+}
 
 // Preserve state
-$slots = $game->board->getSlots();
+$slots = $board->getSlots();
 $_SESSION["slots"] = $slots;
 
 ?>

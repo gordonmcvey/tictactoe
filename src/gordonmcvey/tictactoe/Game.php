@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace gordonmcvey\tictactoe;
 
-use gordonmcvey\tictactoe\enum\Players;
-use Random\Randomizer;
+use gordonmcvey\tictactoe\interface\PlayerContract;
 
 class Game
 {
@@ -20,57 +19,51 @@ class Game
         [2, 4, 6], // Diagonal right
     ];
 
-    public function __construct(public Board $board, private readonly Randomizer $randomiser)
-    {
+    /**
+     * @var array<array-key, PlayerContract>
+     */
+    private readonly array $players;
+
+    public function __construct(
+        private readonly Board $board,
+        PlayerContract         $player1,
+        PlayerContract         $player2,
+    ) {
+        $this->players = [$player1, $player2];
     }
 
-    public function playRound(int $slot): ?int
+    public function playRound(): ?int
     {
         $movesRemaining = $this->board->movesLeft();
 
-        if ($movesRemaining > 0) {
-            $this->board->play(Players::PLAYER_1->value, $slot);
-            if ($this->hasWon(Players::PLAYER_1->value)) {
-                return Players::PLAYER_1->value;
+        foreach ($this->players as $player) {
+            // Guard to prevent further play should all available moves get played before the end of the round
+            if ($movesRemaining-- <= 0) {
+                break;
             }
-        }
 
-        if ($movesRemaining > 1) {
-            $this->board->play(Players::PLAYER_2->value, $this->computeMove());
-            if ($this->hasWon(Players::PLAYER_2->value)) {
-                return Players::PLAYER_2->value;
+            if ($this->hasWon($player->play())) {
+                return $player->playerId->value;
             }
         }
 
         return null;
     }
 
-    public function hasWon(int $player): bool
+    public function hasWon(PlayerContract $player): bool
     {
         $slots = $this->board->getSlots();
+        $playerId = $player->playerId->value;
 
         foreach (self::WIN_CONDITIONS as $winCondition) {
-            if ($player === $slots[$winCondition[0]]
-                && $player === $slots[$winCondition[1]]
-                && $player === $slots[$winCondition[2]]) {
+            if ($playerId === $slots[$winCondition[0]]
+                && $playerId === $slots[$winCondition[1]]
+                && $playerId === $slots[$winCondition[2]]
+            ) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    private function computeMove(): int
-    {
-        // This is where we'd implement the computer player's logic, but we don't have time for that
-        // so we'll just make the computer play a random move
-        $availableMoves = $this->board->availableMoves();
-
-        if (empty($availableMoves)) {
-            throw new \RuntimeException("No available moves");
-        }
-
-        $picked = $this->randomiser->pickArrayKeys($availableMoves, 1)[0];
-        return $availableMoves[$picked];
     }
 }
