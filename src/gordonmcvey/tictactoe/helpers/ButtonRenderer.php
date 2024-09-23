@@ -18,11 +18,11 @@ class ButtonRenderer
         };
 
         $disable = null !== $player ?
-            'disabled="disabled"' :
+            ' disabled="disabled"' :
             '';
 
         return sprintf(
-            '<button %s type="submit" name="move" value="%d">%s</button>',
+            '<button%s type="submit" name="move" value="%d">%s</button>',
             $disable,
             $slot,
             $symbol->value,

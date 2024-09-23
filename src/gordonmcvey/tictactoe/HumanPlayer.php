@@ -9,7 +9,7 @@ namespace gordonmcvey\tictactoe;
  */
 class HumanPlayer extends AbstractPlayer
 {
-    private ?int $move;
+    private ?int $move = null;
 
     public function play(): self
     {

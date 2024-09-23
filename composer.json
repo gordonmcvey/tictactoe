@@ -17,16 +17,24 @@
       "gordonmcvey\\tictactoe\\": "src/gordonmcvey/tictactoe"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "gordonmcvey\\tictactoe\\tests\\unit\\": "tests/gordonmcvey/tictactoe/test/unit"
+    }
+  },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.10",
     "phpstan/phpstan": "^1.12",
-    "overtrue/phplint": "^9.4"
+    "overtrue/phplint": "^9.4",
+    "phpunit/phpunit": "^11.3"
   },
   "scripts": {
+    "unittest": "vendor/bin/phpunit",
     "phpcs": "vendor/bin/phpcs",
     "lint": "vendor/bin/phplint -c ./phplint.yaml.dist",
     "static": "vendor/bin/phpstan",
     "all": [
+      "@unittest",
       "@phpcs",
       "@lint",
       "@static"
