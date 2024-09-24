@@ -2,7 +2,7 @@
   "name": "gordonmcvey/tictactoe",
   "description": "Basic PHP application for refactoring demo",
   "minimum-stability": "stable",
-  "license": "apache",
+  "license": "Apache-2.0",
   "authors": [
     {
       "name": "gordonmcvey",
@@ -19,7 +19,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "gordonmcvey\\tictactoe\\tests\\unit\\": "tests/gordonmcvey/tictactoe/test/unit"
+      "gordonmcvey\\tictactoe\\tests\\": "tests/gordonmcvey/tictactoe/test"
     }
   },
   "require-dev": {
