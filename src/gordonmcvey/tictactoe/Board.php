@@ -49,7 +49,11 @@ class Board
     public function play(PlayerIds $player, int $move): self
     {
         if (null !== $this->slots[$move]) {
-            throw new \InvalidArgumentException("Illegal move: Slot already occupied");
+            throw new \InvalidArgumentException(sprintf(
+                "Illegal move: Slot %d already occupied by player %d",
+                $move,
+                $this->slots[$move],
+            ));
         }
 
         $this->slots[$move] = $player->value;

@@ -29,12 +29,14 @@
     "phpunit/phpunit": "^11.3"
   },
   "scripts": {
-    "unittest": "vendor/bin/phpunit",
+    "unittest": "vendor/bin/phpunit ./tests/gordonmcvey/tictactoe/test/unit",
+    "integrationtest": "vendor/bin/phpunit ./tests/gordonmcvey/tictactoe/test/integration",
+    "test": "vendor/bin/phpunit",
     "phpcs": "vendor/bin/phpcs",
     "lint": "vendor/bin/phplint -c ./phplint.yaml.dist",
     "static": "vendor/bin/phpstan",
     "all": [
-      "@unittest",
+      "@test",
       "@phpcs",
       "@lint",
       "@static"
