@@ -18,6 +18,7 @@ class HumanPlayer extends AbstractPlayer
         }
 
         $this->board->play($this->getPlayerId(), $this->move);
+        $this->move = null;
         return $this;
     }
 

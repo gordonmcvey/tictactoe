@@ -36,4 +36,20 @@ class HumanPlayerTest extends TestCase
 
         $player->play();
     }
+
+    public function testPlayMoveClearsSpecifiedMove(): void
+    {
+        $board = $this->createMock(Board::class);
+
+        // Glass box: Player 1 should play slot 4
+        $board->expects($this->once())->method("play")->with(PlayerIds::PLAYER_1, 4)->willReturnSelf();
+
+        $player = new HumanPlayer(PlayerIds::PLAYER_1, $board);
+        $player->setMove(4);
+
+        // As playing a move clears it, the second call to play() should trigger an exception
+        $player->play();
+        $this->expectException(\RuntimeException::class);
+        $player->play();
+    }
 }
